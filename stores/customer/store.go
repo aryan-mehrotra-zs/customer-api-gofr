@@ -30,7 +30,8 @@ func (s store) Create(ctx *gofr.Context, customer models.Customer) (int64, error
 func (s store) Get(ctx *gofr.Context, id string) (models.Customer, error) {
 	var customer models.Customer
 
-	err := ctx.DB().QueryRowContext(ctx, get, id).Scan(&customer.ID, &customer.Name)
+	db := ctx.DB()
+	err := db.QueryRowContext(ctx, get, id).Scan(&customer.ID, &customer.Name)
 
 	switch {
 	case err == sql.ErrNoRows:
